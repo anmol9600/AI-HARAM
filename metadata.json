@@ -1,0 +1,6 @@
+{
+  "name": "Al-Haram Sacred Journeys",
+  "description": "Professional Umrah and Hajj tour and travel services providing comprehensive packages, visa processing, and accommodations in Makkah and Madinah.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
