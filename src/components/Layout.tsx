@@ -1,11 +1,12 @@
 import { useState, FormEvent, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Phone, Mail, User, BookOpen, MapPin } from 'lucide-react';
+import { X, Phone, Mail, User, BookOpen, MapPin, Menu } from 'lucide-react';
 import { packages } from '../data';
 
 // Navigation Bar
 export function Navbar({ onBookClick }: { onBookClick: () => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,34 +16,82 @@ export function Navbar({ onBookClick }: { onBookClick: () => void }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <nav className={`fixed top-0 inset-x-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-4' : 'bg-transparent py-6'}`}>
-      <div className="container mx-auto px-6 tracking-wide flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2 group">
-           <div className={`w-10 h-10 flex items-center justify-center rounded-lg ${isScrolled ? 'bg-emerald-900 text-gold-400' : 'bg-white/10 backdrop-blur-md border border-white/20 text-white'}`}>
-             <span className="font-serif text-2xl group-hover:scale-110 transition-transform">H</span>
-           </div>
-           <div className="flex flex-col">
-             <span className={`font-serif leading-none tracking-wider text-xl font-bold ${isScrolled ? 'text-emerald-950' : 'text-white'}`}>Al-Haram</span>
-             <span className={`text-[10px] uppercase font-semibold leading-none tracking-[0.2em] ${isScrolled ? 'text-gold-600' : 'text-gold-400'}`}>Sacred Journeys</span>
-           </div>
-        </a>
+    <>
+      <nav className={`fixed top-0 inset-x-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3 md:py-4' : 'bg-transparent py-4 md:py-6'}`}>
+        <div className="container mx-auto px-4 md:px-6 tracking-wide flex items-center justify-between">
+          <a href="#" className="flex items-center gap-2 md:gap-3 group z-50 relative">
+             <div className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-lg ${isScrolled ? 'bg-emerald-900 text-gold-400' : 'bg-white/10 backdrop-blur-md border border-white/20 text-white'}`}>
+               <span className="font-serif text-xl md:text-2xl group-hover:scale-110 transition-transform">H</span>
+             </div>
+             <div className="flex flex-col">
+               <span className={`font-serif leading-none tracking-wider text-lg md:text-xl font-bold ${isScrolled ? 'text-emerald-950' : 'text-white'}`}>Al-Haram</span>
+               <span className={`text-[9px] md:text-[10px] uppercase font-semibold leading-none tracking-[0.2em] ${isScrolled ? 'text-gold-600' : 'text-gold-400'}`}>Sacred Journeys</span>
+             </div>
+          </a>
 
-        <div className="hidden md:flex items-center gap-8">
-          <a href="#about" className={`text-sm font-medium hover:text-gold-400 transition-colors ${isScrolled ? 'text-stone-600' : 'text-zinc-200'}`}>About Us</a>
-          <a href="#services" className={`text-sm font-medium hover:text-gold-400 transition-colors ${isScrolled ? 'text-stone-600' : 'text-zinc-200'}`}>Services</a>
-          <a href="#packages" className={`text-sm font-medium hover:text-gold-400 transition-colors ${isScrolled ? 'text-stone-600' : 'text-zinc-200'}`}>Packages</a>
-          <a href="#gallery" className={`text-sm font-medium hover:text-gold-400 transition-colors ${isScrolled ? 'text-stone-600' : 'text-zinc-200'}`}>Gallery</a>
+          <div className="hidden lg:flex items-center gap-8">
+            <a href="#about" className={`text-sm font-medium hover:text-gold-400 transition-colors ${isScrolled ? 'text-stone-600' : 'text-zinc-200'}`}>About Us</a>
+            <a href="#services" className={`text-sm font-medium hover:text-gold-400 transition-colors ${isScrolled ? 'text-stone-600' : 'text-zinc-200'}`}>Services</a>
+            <a href="#packages" className={`text-sm font-medium hover:text-gold-400 transition-colors ${isScrolled ? 'text-stone-600' : 'text-zinc-200'}`}>Packages</a>
+            <a href="#gallery" className={`text-sm font-medium hover:text-gold-400 transition-colors ${isScrolled ? 'text-stone-600' : 'text-zinc-200'}`}>Gallery</a>
+          </div>
+
+          <div className="hidden lg:block">
+            <button 
+              onClick={onBookClick}
+              className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${isScrolled ? 'bg-emerald-900 text-gold-400 hover:bg-emerald-950 hover:shadow-lg' : 'bg-gold-500 text-emerald-950 hover:bg-gold-400 border border-gold-400'}`}
+            >
+              Book Now
+            </button>
+          </div>
+
+          <div className="lg:hidden flex items-center gap-4 z-50">
+            <button 
+              onClick={onBookClick}
+              className={`px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-semibold transition-all ${isScrolled ? 'bg-emerald-900 text-gold-400' : 'bg-gold-500 text-emerald-950'}`}
+            >
+              Book
+            </button>
+            <button onClick={toggleMobileMenu} className={`p-1.5 rounded-md ${isScrolled ? 'text-emerald-950' : 'text-white'}`}>
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
+      </nav>
 
-        <button 
-          onClick={onBookClick}
-          className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${isScrolled ? 'bg-emerald-900 text-gold-400 hover:bg-emerald-950 hover:shadow-lg' : 'bg-gold-500 text-emerald-950 hover:bg-gold-400 border border-gold-400'}`}
-        >
-          Book Now
-        </button>
-      </div>
-    </nav>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 z-30 bg-white pt-24 pb-8 px-6 flex flex-col justify-between"
+          >
+            <div className="flex flex-col gap-6 text-center">
+              <a href="#about" onClick={toggleMobileMenu} className="text-xl font-medium text-emerald-950 border-b border-stone-100 pb-4">About Us</a>
+              <a href="#services" onClick={toggleMobileMenu} className="text-xl font-medium text-emerald-950 border-b border-stone-100 pb-4">Services</a>
+              <a href="#packages" onClick={toggleMobileMenu} className="text-xl font-medium text-emerald-950 border-b border-stone-100 pb-4">Packages</a>
+              <a href="#gallery" onClick={toggleMobileMenu} className="text-xl font-medium text-emerald-950 border-b border-stone-100 pb-4">Gallery</a>
+            </div>
+            
+            <button 
+              onClick={() => {
+                toggleMobileMenu();
+                onBookClick();
+              }}
+              className="w-full py-4 mt-8 bg-emerald-900 text-gold-400 rounded-xl font-semibold text-lg"
+            >
+              Book Your Journey
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -180,33 +229,33 @@ export function BookingModal({ isOpen, onClose, selectedPackage }: BookingModalP
 // Footer
 export function Footer() {
   return (
-    <footer className="bg-emerald-950 text-emerald-50 pt-20 pb-10 border-t-4 border-gold-500">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 lg:col-span-2">
-             <div className="flex items-center gap-2 group mb-6">
-               <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-emerald-900 border border-gold-500/30 text-gold-400">
-                 <span className="font-serif text-2xl group-hover:scale-110 transition-transform">H</span>
+    <footer className="bg-emerald-950 text-emerald-50 pt-16 md:pt-20 pb-8 md:pb-10 border-t-4 border-gold-500">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-12 md:mb-16">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-2">
+             <div className="flex items-center gap-2 group mb-4 md:mb-6">
+               <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-lg bg-emerald-900 border border-gold-500/30 text-gold-400">
+                 <span className="font-serif text-xl md:text-2xl group-hover:scale-110 transition-transform">H</span>
                </div>
                <div className="flex flex-col">
-                 <span className="font-serif leading-none tracking-wider text-xl font-bold">Al-Haram</span>
-                 <span className="text-[10px] uppercase font-semibold leading-none tracking-[0.2em] text-gold-500">Sacred Journeys</span>
+                 <span className="font-serif leading-none tracking-wider text-lg md:text-xl font-bold">Al-Haram</span>
+                 <span className="text-[9px] md:text-[10px] uppercase font-semibold leading-none tracking-[0.2em] text-gold-500">Sacred Journeys</span>
                </div>
             </div>
-            <p className="text-emerald-200/80 max-w-sm mb-6 leading-relaxed font-light">
+            <p className="text-emerald-200/80 max-w-sm mb-6 leading-relaxed font-light text-sm md:text-base">
               Providing trusted, premium logistical support for Hajj and Umrah pilgrims globally. Your spiritual peace is our ultimate priority.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3 md:space-x-4">
               {/* social icons mockup */}
-              <div className="w-10 h-10 rounded-full border border-emerald-800 flex items-center justify-center text-gold-400 hover:bg-emerald-900 transition-colors cursor-pointer">f</div>
-              <div className="w-10 h-10 rounded-full border border-emerald-800 flex items-center justify-center text-gold-400 hover:bg-emerald-900 transition-colors cursor-pointer">t</div>
-              <div className="w-10 h-10 rounded-full border border-emerald-800 flex items-center justify-center text-gold-400 hover:bg-emerald-900 transition-colors cursor-pointer">in</div>
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-emerald-800 flex items-center justify-center text-gold-400 hover:bg-emerald-900 transition-colors cursor-pointer text-sm">f</div>
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-emerald-800 flex items-center justify-center text-gold-400 hover:bg-emerald-900 transition-colors cursor-pointer text-sm">t</div>
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-emerald-800 flex items-center justify-center text-gold-400 hover:bg-emerald-900 transition-colors cursor-pointer text-sm">in</div>
             </div>
           </div>
           
           <div>
-            <h4 className="font-serif text-lg text-gold-400 mb-6">Quick Links</h4>
-            <ul className="space-y-3 font-light text-emerald-200/80">
+            <h4 className="font-serif text-base md:text-lg text-gold-400 mb-4 md:mb-6">Quick Links</h4>
+            <ul className="space-y-2.5 md:space-y-3 font-light text-sm md:text-base text-emerald-200/80">
               <li><a href="#about" className="hover:text-gold-400 transition-colors">About Us</a></li>
               <li><a href="#packages" className="hover:text-gold-400 transition-colors">Umrah Packages</a></li>
               <li><a href="#packages" className="hover:text-gold-400 transition-colors">Hajj 2026</a></li>
@@ -215,27 +264,27 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-serif text-lg text-gold-400 mb-6">Contact Us</h4>
-            <ul className="space-y-4 font-light text-emerald-200/80">
-              <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-gold-500 shrink-0" />
+            <h4 className="font-serif text-base md:text-lg text-gold-400 mb-4 md:mb-6">Contact Us</h4>
+            <ul className="space-y-3 md:space-y-4 font-light text-sm md:text-base text-emerald-200/80">
+              <li className="flex items-start gap-2.5 md:gap-3">
+                <MapPin className="w-4 h-4 md:w-5 md:h-5 text-gold-500 shrink-0 mt-0.5" />
                 <span>123 Pilgrim Way, Suite 404<br/>London, UK WC1E 7HX</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-gold-500 shrink-0" />
+              <li className="flex items-center gap-2.5 md:gap-3">
+                <Phone className="w-4 h-4 md:w-5 md:h-5 text-gold-500 shrink-0" />
                 <span>+44 20 7946 0958</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-gold-500 shrink-0" />
-                <span>bookings@alharamsacred.com</span>
+              <li className="flex items-center gap-2.5 md:gap-3">
+                <Mail className="w-4 h-4 md:w-5 md:h-5 text-gold-500 shrink-0" />
+                <span className="break-all">bookings@alharamsacred.com</span>
               </li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-emerald-900 pt-8 flex flex-col md:flex-row items-center justify-between font-light text-sm text-emerald-400/60">
-          <p>&copy; {new Date().getFullYear()} Al-Haram Sacred Journeys. All rights reserved.</p>
-          <div className="space-x-4 mt-4 md:mt-0">
+        <div className="border-t border-emerald-900 pt-6 md:pt-8 flex flex-col md:flex-row items-center justify-between font-light text-xs md:text-sm text-emerald-400/60 gap-4 md:gap-0 text-center md:text-left">
+          <p>&copy; {new Date().getFullYear()} Al-Haram Sacred Journeys. <br className="md:hidden"/>All rights reserved.</p>
+          <div className="flex space-x-4">
             <a href="#" className="hover:text-emerald-200">Privacy Policy</a>
             <a href="#" className="hover:text-emerald-200">Terms of Service</a>
           </div>
